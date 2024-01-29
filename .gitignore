@@ -1,0 +1,10 @@
+# Ignorar archivos y directorios generados por Python
+__pycache__/
+
+timeline/__pycache__/
+
+project5/migrations/__pycache__/
+
+# Ignorar archivos y directorios generados por Python en el directorio project5
+project5/__pycache__/
+

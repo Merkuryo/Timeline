@@ -1,0 +1,82 @@
+{% extends "timeline/layout.html" %}
+
+{% block content %}
+
+    <nav class="navbar navbar-expand-lg" id="navbar">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center text-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#project-management">Manage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#project-calendar">Calendar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#events-tasks">Events</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div id="project-management" class="mb-5">
+            <h1>Timeline Project Management</h1>
+            <ul>
+                <li>
+                    <h2>Unlimited Project Creation</h2>
+                    <p>With Timeline, you can create as many projects as you want.</p>
+                </li>
+                <li>
+                    <h2>Customized Project Search</h2>
+                    <p>You can filter projects by start date, end date, or project name.</p>
+                </li>
+                <li>
+                    <h2>Project Archiving Capability</h2>
+                    <p>With Timeline, you can archive completed or obsolete projects that you no longer use and retrieve them in the future if needed.</p>
+                </li>
+            </ul>
+        </div>
+
+        <div id="project-calendar" class="mb-5">
+            <h1>Project Calendar</h1>
+            <ul>
+                <li>
+                    <h2>Project-Specific Calendar</h2>
+                    <p>With Timeline, you'll enjoy the ability to manage a customized calendar for each project.</p>
+                </li>
+                <li>
+                    <h2>Date Control</h2>
+                    <p>Each project's calendar is created from the start date to the project's end date, eliminating unnecessary calendar clutter and allowing the user to focus on the project.</p>
+                </li>
+                <li>
+                    <h2>Unlimited Filters</h2>
+                    <p>You can filter the calendar by day, month, or year. Additionally, you can filter tasks or events by day, month, or year to display them in a list.</p>
+                </li>
+            </ul>
+        </div>
+
+        <div id="events-tasks" class="mb-5">
+            <h1>Events and Tasks</h1>
+            <ul>
+                <li>
+                    <h2>Create Events</h2>
+                    <p>You can create events or tasks throughout the project calendar by simply clicking on the calendar and dragging the mouse.</p>
+                </li>
+                <li>
+                    <h2>Edit Tasks</h2>
+                    <p>All events and tasks can be edted; change the start date, end date, color, or even the time.</p>
+                </li>
+                <li>
+                    <h2>Move It Your Way</h2>
+                    <p>You can move all events by simply clicking on them with the mouse and dragging the to another location on the calendar.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

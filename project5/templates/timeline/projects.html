@@ -1,0 +1,88 @@
+{% extends "timeline/layout.html" %}
+{% block content %}
+<div class="container-fluid" style="width: calc(100% - 20px); margin: 0 10px;">
+    <!-- New Project form -->
+    <h2>Projects</h2>
+        <div id="create-project-form" class="container-fluid border border-secondary rounded-lg" style="display: none;">
+            <form method="POST" action="{% url 'create_project' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;">Save New Project</button>
+            </form>
+        </div>
+        <button id="create-project-button" class="btn btn-primary">Create New Project</button>
+    
+        <!-- Search form -->
+    <form method="GET" action="{% url 'projects' %}">
+        <input type="text" name="search" placeholder="Search projects" class="form-control" style="margin: 10px 0px;">
+        <button type="submit" class="btn btn-primary" style="margin: 0px 0px;">Search</button>
+    </form>
+    <!-- Order by selector -->
+    <form method="GET" action="{% url 'projects' %}">
+        <select name="order_by">
+            <option value="">Order by</option>
+            <option value="name" {% if order_by == "name" %}selected{% endif %}>Title</option>
+            <option value="start_date" {% if order_by == "start_date" %}selected{% endif %}>Start Date</option>
+            <option value="end_date" {% if order_by == "end_date" %}selected{% endif %}>End Date</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Sort</button>
+    </form>
+   
+    {% if user.is_authenticated %}
+    <!-- Display all projects -->
+    {% for project in projects %}
+        {% if not project.archived %}
+            <div class="card" style= "margin: 5px 0px;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <span id="name-{{ project.id }}-text">{{ project.name }}</span>
+                        <input type="text" id="name-{{ project.id }}" name="name" value="{{ project.name }}" class="form-control d-none">
+                    </h5>
+                    <p class="card-text">
+                        <span id="description-{{ project.id }}-text">{{ project.description }}</span>
+                        <textarea id="description-{{ project.id }}" name="description" class="form-control d-none">{{ project.description }}</textarea>
+                    </p>
+                    <p class="card-text">
+                        Start: <span id="start-date-{{ project.id }}-text">{{ project.start_date }}</span>
+                        <input type="date" id="start-date-{{ project.id }}" name="start_date" value="{{ project.start_date|date:'Y-m-d' }}" class="form-control d-none">
+                    </p>
+                    <p class="card-text">
+                        Finish: <span id="end-date-{{ project.id }}-text">{{ project.end_date }}</span>
+                        <input type="date" id="end-date-{{ project.id }}" name="end_date" value="{{ project.end_date|date:'Y-m-d' }}" class="form-control d-none">
+                    </p>
+                    <a href="#" class="btn btn-info edit-button" data-id="{{ project.id }}" data-csrf="{{ csrf_token }}">Edit</a>
+                    <div class="save-button d-none" data-id="{{ project.id }}">
+                        <button class="btn btn-success">Save</button>
+                    </div>
+                    <a href="{% url 'manage_project' project.id %}" class="btn btn-primary manage-button" data-id="{{ project.id }}" data-csrf="{{ csrf_token }}">Manage</a>
+                    <button class="btn btn-warning archive-button" data-id="{{ project.id }}" data-csrf="{{ csrf_token }}">Archive</button>
+                    <button class="btn btn-danger delete-button" data-id="{{ project.id }}" data-csrf="{{ csrf_token }}">Delete</button>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+                
+    <!-- Display Pagination with Bootstrap -->
+    {% if projects.paginator.num_pages > 1 %}
+        <div class="pagination justify-content-center mt-4" style="margin-bottom: 10px;">
+            {% if projects.has_previous %}
+                <a href="?page={{ projects.previous_page_number }}{% if search_term %}&search={{ search_term }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}" class="btn btn-primary mr-2" style="margin: 0 2px">Previous</a>
+            {% endif %}
+            {% for num in projects.paginator.page_range %}
+                {% if num == projects.number %}
+                    <a href="?page={{ num }}{% if search_term %}&search={{ search_term }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}" class="btn btn-primary active mr-2" style="margin: 0 2px">{{ num }}</a>
+                {% elif num > projects.number|add:'-3' and num < projects.number|add:'3' %}
+                    <a href="?page={{ num }}{% if search_term %}&search={{ search_term }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}" class="btn btn-primary mr-2" style="margin: 0 2px">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if projects.has_next %}
+                <a href="?page={{ projects.next_page_number }}{% if search_term %}&search={{ search_term }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}" class="btn btn-primary mr-2" style="margin: 0 2px">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+    {% else %}
+    <p>You don't have projects. Create one.</p>
+    {% endif %}
+</div>
+{% endblock %}
+  
